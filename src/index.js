@@ -6,8 +6,19 @@ import "./database/model/Transaction.js";
 await connection.sync();
 
 import express from "express";
+import cors from "cors";
+
+import userController from "./controller/user-controller.js";
+import transactionController from "./controller/transaction-controller.js";
 
 const server = express();
+
+server.use(cors({ origin: "*" }))
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
+
+server.use(userController);
+server.use(transactionController);
 
 server.listen(3000, _ => {
     console.log("Server running.");
