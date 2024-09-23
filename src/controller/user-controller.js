@@ -1,7 +1,10 @@
-import User from "../database/model/User.js";
 import { Router } from "express";
+import User from "../database/model/User.js";
+import verifyToken from "../middleware/verify-token.js";
 
 const userController = Router();
+
+userController.use(verifyToken);
 
 userController.get("/users", async (req, res) => {
     try {

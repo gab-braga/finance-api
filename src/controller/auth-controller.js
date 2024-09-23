@@ -43,6 +43,9 @@ authController.post("/auth/signin", async (req, res) => {
             const token = jwt.sign(payload, secret, { expiresIn: "7d" });
             res.status(200).json({ token: `Bearer ${token}` });
         }
+        else {
+            res.status(401).json({ message: "Incorrect password." });
+        }
     }
     catch (error) {
         console.log(error);

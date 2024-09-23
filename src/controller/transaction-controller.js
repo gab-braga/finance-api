@@ -1,7 +1,10 @@
-import Transaction from "../database/model/Transaction.js";
 import { Router } from "express";
+import Transaction from "../database/model/Transaction.js";
+import verifyToken from "../middleware/verify-token.js";
 
 const transactionController = Router();
+
+transactionController.use(verifyToken);
 
 transactionController.get("/transactions", async (req, res) => {
     try {
