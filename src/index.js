@@ -8,6 +8,7 @@ await connection.sync();
 import express from "express";
 import cors from "cors";
 
+import authController from "./controller/auth-controller.js";
 import userController from "./controller/user-controller.js";
 import transactionController from "./controller/transaction-controller.js";
 
@@ -17,6 +18,7 @@ server.use(cors({ origin: "*" }))
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
+server.use(authController);
 server.use(userController);
 server.use(transactionController);
 
