@@ -35,7 +35,7 @@ authController.post("/auth/signin", async (req, res) => {
             return;
         }
         
-        const isSamePassword  = await bcrypt.compare(password, user.password);
+        const isSamePassword = await bcrypt.compare(password, user.password);
         if(isSamePassword) {
             const { id, name, email } = user;
             const payload = { id, name, email };

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Transaction from "../database/model/Transaction.js";
 import verifyToken from "../middleware/verify-token.js";
+import { connection } from "../database/config.js";
 
 const transactionController = Router();
 
@@ -27,6 +28,24 @@ transactionController.get("/transactions/:id", async (req, res) => {
         else {
             res.status(404).json({ message: "Transaction not found." });
         }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Server error." });
+    }
+});
+
+transactionController.get("/transactions/:id/balance", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const q =
+            "SELECT " +
+            "SUM(CASE WHEN classification = 'in' THEN capital ELSE 0 END) - " +
+            "SUM(CASE WHEN classification = 'out' THEN capital ELSE 0 END) AS balance " +
+            "FROM transactions " +
+            `WHERE userId = ${id}`
+        const [[{ balance }]] = await connection.query(q);
+        res.status(200).json({ balance });
     }
     catch (error) {
         console.log(error);
