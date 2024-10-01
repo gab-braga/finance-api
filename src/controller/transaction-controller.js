@@ -36,6 +36,18 @@ transactionController.get("/transactions/:id", async (req, res) => {
     }
 });
 
+transactionController.get("/transactions/users/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const transactions = await Transaction.findAll({ where: { userId: id } });
+        res.status(200).json(transactions);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server error." })
+    }
+});
+
 transactionController.get("/transactions/balance/:id", async (req, res) => {
     const { id } = req.params;
     try {
